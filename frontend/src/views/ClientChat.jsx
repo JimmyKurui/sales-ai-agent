@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MessageSquare } from 'lucide-react';
 import { wsService } from '../services/websocket';
+import { addMessage } from '../stores/slices/chatSlice';
+import { MessageSquare } from 'lucide-react';
 
-const ClientChat = () => {
+
+const ClientChat = ({ type='client' }) => {
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const [input, setInput] = useState('');
   const dispatch = useDispatch();
   const { messages, isConnected } = useSelector((state) => state.chat);
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!input.trim()) return;
 
     const message = {
-      type: 'client',
+      type,
       content: input,
       timestamp: new Date().toISOString(),
     };
     
-
     wsService.sendMessage(message);
+    dispatch(addMessage(message));
     setInput('');
   };
 
@@ -28,14 +31,14 @@ const ClientChat = () => {
       <header className="bg-white shadow-sm p-4">
         <div className="flex items-center space-x-2">
           <MessageSquare className="text-blue-500" />
-          <h1 className="text-xl font-semibold">Sales Assistant</h1>
+          <h1 className="text-xl font-semibold">CRM Runners | Sales</h1>
           <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
         </div>
       </header>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message, index) => (
-          <ClientChatMessage key={index} {...message} />
+          <ClientChatMessage key={index} {...message} isAuthenticated={isAuthenticated} />
         ))}
       </div>
 
@@ -60,13 +63,13 @@ const ClientChat = () => {
   );
 };
 
-const ClientChatMessage = ({ content, type, timestamp }) => {
-  const isClient = type === 'client';
+const ClientChatMessage = ({ content, type, timestamp, isAuthenticated }) => {
+  const rightAligned = (type === 'client' && isAuthenticated) || (type === 'agent' && !isAuthenticated);
   
   return (
-    <div className={`flex ${isClient ? 'justify-end' : 'justify-start'}`}>
+    <div className={`flex ${rightAligned ? 'justify-end' : 'justify-start'}`}>
       <div className={`max-w-[70%] rounded-lg p-3 ${
-        isClient ? 'bg-blue-500 text-white' : 'bg-white shadow-sm'
+        rightAligned ? 'bg-blue-500 text-white' : 'bg-white shadow-sm'
       }`}>
         <p className="text-sm">{content}</p>
         <span className="text-xs opacity-70">

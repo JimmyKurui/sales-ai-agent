@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// Client login, No Agent auth
 const authSlice = createSlice({
   name: 'auth',
   initialState: {

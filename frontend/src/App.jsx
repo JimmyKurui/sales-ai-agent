@@ -16,14 +16,14 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/chat" element={<ClientChat />} />
+          <Route path="/chat" element={<DashboardLayout />} />
           
           {/* Protected Sales Agent Routes */}
           <Route
             path="/agent/*"
             element={
               <ProtectedRoute>
-                <DashboardLayout />
+                <ClientChat />
               </ProtectedRoute>
             }
           />

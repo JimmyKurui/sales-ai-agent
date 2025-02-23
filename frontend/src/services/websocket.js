@@ -25,12 +25,13 @@ class WebSocketService {
       };
   
       this.ws.onmessage = (event) => {
+        console.log(event.data, typeof event.data)
+        
         const message = JSON.parse(event.data);
         this.store.dispatch(addMessage(message));
       };
-  
       this.ws.onerror = (error) => {
-        this.store.dispatch(setError('WebSocket error occurred'));
+        this.store.dispatch(setError('WebSocket error occurred', error));
       };
     }
   
@@ -41,4 +42,4 @@ class WebSocketService {
     }
   }
   
-  export const wsService = new WebSocketService('ws://your-backend-url/ws');
+  export const wsService = new WebSocketService('ws://localhost:8080');
