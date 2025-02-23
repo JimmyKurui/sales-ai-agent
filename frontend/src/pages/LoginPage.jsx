@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setAuth } from '../stores/slices/authSlice';
+import { authenticate } from '../stores/slices/authSlice';
 
 const LoginPage = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -11,18 +11,15 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Add authentication logic here
-    // On success:
-    dispatch(setAuth(credentials?.email));
-    console.log('nav', location.state?.from?.pathname)
-    navigate(location.state?.from?.pathname || '/agent');
+    dispatch(authenticate({email: credentials.email}));
+    navigate(location.state?.from?.pathname || '/chat');
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
         <div>
-          <h2 className="text-center text-3xl font-bold">Sales Agent Login</h2>
+          <h2 className="text-center text-3xl font-bold">Dear Client, input your email</h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <input

@@ -1,4 +1,6 @@
+import { io } from "socket.io-client";
 import { setConnectionStatus, addMessage, setError } from "../stores/slices/chatSlice";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 class WebSocketService {
     constructor(url) {
@@ -13,9 +15,18 @@ class WebSocketService {
     }
   
     connect() {
-      this.ws = new WebSocket(this.url);
+      // this.ws = new WebSocket(this.url);
+      this.ws = io(this.url, {
+        transports: ["websocket"], // Use WebSocket for real-time communication
+        reconnection: true, // Enable automatic reconnection
+        reconnectionAttempts: 5, // Try 5 times before failing
+        reconnectionDelay: 5000, // Wait 5 seconds before retrying
+      })
   
       this.ws.onopen = () => {
+        this.ws.emit("my_event", function() {
+          console.log('My ting')
+        });
         this.store.dispatch(setConnectionStatus(true));
       };
   
@@ -42,4 +53,4 @@ class WebSocketService {
     }
   }
   
-  export const wsService = new WebSocketService('ws://localhost:8080');
+  export const wsService = new WebSocketService(`ws://${BASE_URL}`);

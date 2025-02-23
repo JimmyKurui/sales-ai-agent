@@ -16,11 +16,11 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/chat" element={<DashboardLayout />} />
+          <Route path="/agent" element={<DashboardLayout />} />
           
           {/* Protected Sales Agent Routes */}
           <Route
-            path="/agent/*"
+            path="/chat"
             element={
               <ProtectedRoute>
                 <ClientChat />
@@ -29,7 +29,7 @@ function App() {
           />
           
           {/* Redirects */}
-          <Route path="/" element={<Navigate to="/chat" replace />} />
+          <Route path="/" element={<Navigate to="/agent" replace />} />
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </BrowserRouter>
