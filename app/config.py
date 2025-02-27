@@ -14,7 +14,7 @@ class Config:
     SESSION_PERMANENT = False
     MONGODB_URI = os.environ.get('MONGODB_URI') or 'mongodb://localhost:27017'
     MONGODB_NAME = os.environ.get('MONGODB_NAME') or 'sales_agent_db'
-    IBM_API_KEY = os.environ.get('IBM_API_KEY')
+    WATSONX_APIKEY = os.environ.get('WATSONX_APIKEY')
     IBM_MODEL_ID = os.environ.get('IBM_MODEL_ID')
     
     mongo = MongoClient(MONGODB_URI, server_api=ServerApi('1'), tls=True, tlsAllowInvalidCertificates=True)

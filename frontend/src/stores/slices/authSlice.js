@@ -4,9 +4,9 @@ import axios from 'axios';
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    isAuthenticated: false,
-    user: null,
-    type: null,
+    isAuthenticated: true,
+    user: 'a@a.com',
+    type: 'client',
     error: null,
   },
   reducers: {

@@ -1,5 +1,6 @@
+import { io } from "socket.io-client";
 import { setConnectionStatus, addMessage, setError } from "../stores/slices/chatSlice";
-const BASE_URL = 'localhost:8080';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 class WebSocketService {
     constructor(url) {
@@ -14,28 +15,33 @@ class WebSocketService {
     }
   
     connect() {
-      this.ws = new WebSocket(this.url);
-  
-      this.ws.onopen = () => {
+      this.ws = io(this.url, {
+        transports: ["websocket"],
+        reconnection: true, 
+        reconnectionAttempts: 5, 
+        reconnectionDelay: 5000, 
+      })
+      
+      this.ws.on("connect", () => {
         this.store.dispatch(setConnectionStatus(true));
-      };
-  
-      this.ws.onclose = () => {
+      });
+
+      this.ws.on("disconnect", () => {
         this.store.dispatch(setConnectionStatus(false));
-        setTimeout(() => this.connect(), 5000); // Reconnect after 5 seconds
-      };
+      });
   
-      this.ws.onmessage = (event) => {
-        const message = JSON.parse(event.data);
+      this.ws.on("message", (data) => {
+        const message = JSON.parse(data);
         this.store.dispatch(addMessage(message));
-      };
-      this.ws.onerror = (error) => {
+      });
+      
+      this.ws.on("error", (error) => {
         this.store.dispatch(setError('WebSocket error occurred', error));
-      };
+      });
     }
   
     sendMessage(message) {
-      if (this.ws?.readyState === WebSocket.OPEN) {
+      if (this.ws?.connected) {
         this.ws.send(JSON.stringify(message));
       }
     }

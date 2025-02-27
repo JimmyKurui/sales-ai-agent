@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { wsService } from '../services/websocket';
+import { wsService } from '../services/socketio';
 import { addMessage } from '../stores/slices/chatSlice';
 import { MessageSquare } from 'lucide-react';
 
@@ -36,10 +36,20 @@ const ClientChat = ({ type='client' }) => {
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      {/* <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message, index) => (
-          <ClientChatMessage key={index} {...message} isAuthenticated={isAuthenticated} />
+          <ClientChatMessage key={index} {...message, isAuthenticated} />
         ))}
+      </div> */}
+
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {
+          messages.map((message, index) => {
+            return (
+              <ClientChatMessage key={message.id} {...{...message, x: isAuthenticated}} />
+            );
+          })
+        }
       </div>
 
       <form onSubmit={handleSubmit} className="p-4 bg-white border-t">
