@@ -1,6 +1,7 @@
 .env 
 .cursorindexingignore
-.specstory
+.specstory/
+.vscode/
 
 __pycache__
 

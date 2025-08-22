@@ -4,6 +4,8 @@ import enum
 
 from api.models.base import Base
 
+
+
 class RoleEnums(enum.Enum):
     ADMIN = "admin"
     AI_AGENT = "agent"
@@ -18,7 +20,7 @@ class User(Base):
     username: str = Field(..., description="Username of the user")
     email: EmailStr = Field(..., description="Email address of the user")
     full_name: Optional[str] = Field(None, description="Full name of the user")
-    roles: Optional[List[RoleEnums]] = Field(default_factory=lambda: [RoleEnums.USER], description="List of roles assigned to the user")
+    roles: Optional[List[RoleEnums]] = Field(default_factory=lambda: [RoleEnums.USER.value], description="List of roles assigned to the user")
     model_config = ConfigDict(
         populate_by_name=True,
     )

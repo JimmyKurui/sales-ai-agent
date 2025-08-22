@@ -37,7 +37,7 @@ async def check_db():
     except Exception as e:
         print(e)
 
-async def get_db():
+def get_db():
     global db
     if db is None:
         connect_to_mongo()

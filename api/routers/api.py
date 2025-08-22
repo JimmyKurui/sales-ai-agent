@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Body
-from api.models.users import User
-from api.models.messages import Message
+from api.models.user import User
+from api.models.message import Message
 import api.database.mongodb as db
 from typing import Union
 

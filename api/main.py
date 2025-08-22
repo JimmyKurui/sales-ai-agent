@@ -6,6 +6,7 @@ from api.routers import api as api_router, automations, authentication as auth_r
 from api.database.mongodb import connect_to_mongo, close_mongo_connection, check_db
 
 
+
 app = FastAPI()
 
 origins = [
