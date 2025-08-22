@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Body
-from api.models.users import User, UserCreate
+from api.models.users import User
 from api.models.messages import Message
-import api.database.core as db
+import api.database.mongodb as db
 from typing import Union
 
 router = APIRouter(prefix="/api", tags=["api"])

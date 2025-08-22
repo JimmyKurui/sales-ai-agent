@@ -1,11 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Annotated
-
 from api.routers import automations
 from api.routers import api as api_router
-from api.routers import api as api_router, automations
-from api.database.core import connect_to_mongo, close_mongo_connection, check_db
+from api.routers import api as api_router, automations, authentication as auth_router
+from api.database.mongodb import connect_to_mongo, close_mongo_connection, check_db
 
 
 app = FastAPI()
@@ -22,18 +20,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_router.router)
 app.include_router(api_router.router)
 app.include_router(automations.router)
 
 @app.on_event("startup")
-def startup_db_client():
+async def startup_db_client():
     connect_to_mongo()
+    await check_db()
 
 @app.on_event("shutdown")
-def shutdown_db_client():
-    close_mongo_connection()
+async def shutdown_db_client():
+    await close_mongo_connection()
 
-check_db()
 
 @app.get("/")
 def read_root():

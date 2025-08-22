@@ -11,6 +11,10 @@ OPENAI_API_KEY: str = str(os.getenv("OPENAI_API_KEY"))
 GROQ_API_KEY: str = str(os.getenv("GROQ_API_KEY"))
 MONGODB_URI: str = str(os.getenv("MONGODB_URI"))
 MONGODB_NAME: str = str(os.getenv("MONGODB_NAME"))
+# ---------------------------------- Authentication Configurations ----------------------------------
+SECRET_KEY = str(os.getenv("SECRET_KEY"))
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # ------------------------ AI Configurations ------------------------
 class Roles(Enum):

@@ -1,6 +1,6 @@
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
-from api.config import Roles, models_settings, roles_model_settings, ModelProviders
+from api.config.settings import Roles, models_settings, roles_model_settings, ModelProviders
 from pydantic import HttpUrl
 
 class AIBuilder:
