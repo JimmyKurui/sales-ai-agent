@@ -4,6 +4,8 @@
 .vscode/
 
 __pycache__
+logs/
+*.log
 
 Notes.md
 chat_log.txt

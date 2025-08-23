@@ -1,23 +1,34 @@
 from dotenv import load_dotenv
 from typing import Literal, Optional
 from pydantic import HttpUrl, BaseModel, Field
-from enum import Enum
-import os
+from enum import Enum, StrEnum
+import os, logging
+from pathlib import Path
 
 load_dotenv()
+
+
+
+DEBUG = bool(os.getenv("DEBUG", "false").capitalize())
+MODE = os.getenv("MODE", "production")
 
 OPENROUTER_API_KEY: str = str(os.getenv("OPENROUTER_API_KEY"))
 OPENAI_API_KEY: str = str(os.getenv("OPENAI_API_KEY"))
 GROQ_API_KEY: str = str(os.getenv("GROQ_API_KEY"))
+
 MONGODB_URI: str = str(os.getenv("MONGODB_URI"))
 MONGODB_NAME: str = str(os.getenv("MONGODB_NAME"))
-# ---------------------------------- Authentication Configurations ----------------------------------
+
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
+# ------------------------ General Configurations ------------------------
+LOGGING_CONFIG_PATH = Path(__file__).parent / "logging.conf"
+logging.config.fileConfig(LOGGING_CONFIG_PATH, disable_existing_loggers=False)
+
 # ------------------------ AI Configurations ------------------------
-class Roles(Enum):
+class Roles(StrEnum):
     BRAIN = "brain"
     IMAGE_TO_TEXT = "image_to_text"
     CHAT = "chat"
