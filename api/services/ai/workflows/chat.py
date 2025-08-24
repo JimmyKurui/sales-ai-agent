@@ -7,7 +7,6 @@ from helpers.ai_builder import AIBuilder
 from tools.twitter import get_tweets
     
 llm = AIBuilder(model_name="meta-llama/llama-3.3-70b-instruct:free", role="default")     
-print(llm)
 
 class ClarifiedMessage(BaseModel):
     intent: str

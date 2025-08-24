@@ -21,7 +21,6 @@ class UserRepository:
         
     async def create_user(self, user: UserInDB) -> UserInDB:
         try:
-            print('user to create:', user.model_dump())
             result = await self.collection.insert_one(user.model_dump())
             if result.acknowledged:
                 user.id = str(result.inserted_id)

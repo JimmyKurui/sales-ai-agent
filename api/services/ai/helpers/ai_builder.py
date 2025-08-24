@@ -24,7 +24,6 @@ class AIBuilder:
             # raise ValueError(f"Model {model_name} is not supported.")
         
         model_settings = models_settings["default"]
-        print("Model settings: ",model_settings)
         updated_settings = {
             **model_settings.model_dump(),
             **_config,
