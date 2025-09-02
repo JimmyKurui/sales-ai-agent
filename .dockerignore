@@ -1,0 +1,25 @@
+# Python-specific ignores
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv/
+env/
+venv/
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+
+# Version control
+.git/
+.gitignore
+
+# Environment variables
+.env
+
+# Documentation and temporary files
+README.md
+*.log
+tmp/
