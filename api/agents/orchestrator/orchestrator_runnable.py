@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 
-llm = ChatGroq(model="deepseek-r1-distill-llama-70b", temperature=0.5)
+llm = ChatGroq(model="deepseek-r1-distill-llama-70b", temperature=0.5, streaming=True, max_retries=3, retry_delay=2)
 
 assistant_prompt = ChatPromptTemplate.from_messages(
     [
